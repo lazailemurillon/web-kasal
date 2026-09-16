@@ -1,0 +1,476 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>My Reservations</title>
+
+
+    <!-- MAIN PAGE CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/main_page.css' %}">
+
+
+    <!-- RESERVATION PAGE CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/reservation_page.css' %}">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="site-header">
+
+
+        <div class="logo-area">
+
+            <span class="logo-symbol">
+                ✦
+            </span>
+
+            <span class="logo-name">
+                Kasal Avenue
+            </span>
+
+        </div>
+
+
+        {% if user.is_authenticated %}
+
+
+            <!-- LOGGED IN -->
+
+            <nav class="logged-in-nav">
+
+
+                <a href="{% url 'main_page' %}">
+                    Browse
+                </a>
+
+
+                <a href="{% url 'reservations' %}">
+                    My Reservations
+                </a>
+
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    class="logout-form">
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        id="logout-button">
+
+                        Logout
+
+                    </button>
+
+                </form>
+
+
+            </nav>
+
+
+        {% else %}
+
+
+            <!-- LOGGED OUT -->
+
+            <nav class="logged-out-nav">
+
+
+                <a
+                    href="{% url 'login' %}"
+                    class="header-login">
+
+                    Login
+
+                </a>
+
+
+                <a
+                    href="{% url 'signup' %}"
+                    class="signup-button">
+
+                    Sign Up
+
+                </a>
+
+
+            </nav>
+
+
+        {% endif %}
+
+
+    </header>
+
+
+
+    <!-- =========================
+         RESERVATION PAGE
+    ========================== -->
+
+    <main class="reservations-page">
+
+
+        <!-- ACCOUNT -->
+
+        <div class="account-label">
+            ACCOUNT
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h1>
+            My Reservations
+        </h1>
+
+
+
+        <!-- =========================
+             UPCOMING
+        ========================== -->
+
+        <section class="reservation-section">
+
+
+            <div class="section-label">
+
+                UPCOMING
+
+                <span>·</span>
+
+                {{ upcoming_reservations|length }}
+
+            </div>
+
+
+
+            {% if upcoming_reservations %}
+
+
+                {% for reservation in upcoming_reservations %}
+
+
+                    <div
+                        class="reservation-card"
+                        id="reservation-{{ reservation.id }}">
+
+
+                        <!-- IMAGE -->
+
+                        <div class="reservation-image">
+
+
+                            {% if reservation.gown.image %}
+
+                                <img
+                                    src="{{ reservation.gown.image.url }}"
+                                    alt="{{ reservation.gown.name }}">
+
+                            {% else %}
+
+                                <div class="broken-image">
+
+                                    {{ reservation.gown.name }}
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <!-- INFORMATION -->
+
+                        <div class="reservation-content">
+
+
+                            <div class="reservation-header">
+
+
+                                <div>
+
+
+                                    <h2>
+                                        {{ reservation.gown.name }}
+                                    </h2>
+
+
+                                    <div class="reservation-number">
+
+                                        KASAL-{{ reservation.id }}
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div class="status confirmed">
+
+                                    {{ reservation.get_status_display|upper }}
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- DATE + TIME -->
+
+                            <div class="reservation-date">
+
+
+                                <span class="calendar">
+                                    ▣
+                                </span>
+
+
+                                {{ reservation.date|date:"F d, Y" }}
+
+
+                                <span class="time">
+
+                                    {{ reservation.time_slot }}
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <!-- CANCEL -->
+
+                            <div class="reservation-buttons">
+
+
+                                <button
+                                    type="button"
+                                    class="cancel-button cancel-reservation"
+                                    data-reservation-id="{{ reservation.id }}">
+
+                                    CANCEL
+
+                                </button>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <div class="empty-reservations">
+
+                    <p>
+                        You have no upcoming reservations.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+
+        <!-- =========================
+             PAST RENTALS
+        ========================== -->
+
+        <section class="reservation-section past-section">
+
+
+            <div class="section-label">
+
+                PAST RENTALS
+
+                <span>·</span>
+
+                {{ past_reservations|length }}
+
+            </div>
+
+
+
+            {% if past_reservations %}
+
+
+                {% for reservation in past_reservations %}
+
+
+                    <div class="reservation-card">
+
+
+                        <!-- IMAGE -->
+
+                        <div class="reservation-image">
+
+
+                            {% if reservation.gown.image %}
+
+                                <img
+                                    src="{{ reservation.gown.image.url }}"
+                                    alt="{{ reservation.gown.name }}">
+
+                            {% else %}
+
+                                <div class="broken-image">
+
+                                    {{ reservation.gown.name }}
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <!-- INFORMATION -->
+
+                        <div class="reservation-content">
+
+
+                            <div class="reservation-header">
+
+
+                                <div>
+
+
+                                    <h2>
+
+                                        {{ reservation.gown.name }}
+
+                                    </h2>
+
+
+                                    <div class="reservation-number">
+
+                                        KASAL-{{ reservation.id }}
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div class="status completed">
+
+                                    {{ reservation.get_status_display|upper }}
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- DATE + TIME -->
+
+                            <div class="reservation-date">
+
+
+                                <span class="calendar">
+                                    ▣
+                                </span>
+
+
+                                {{ reservation.date|date:"F d, Y" }}
+
+
+                                <span class="time">
+
+                                    {{ reservation.time_slot }}
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <div class="empty-reservations">
+
+                    <p>
+                        You have no past rentals.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script
+        src="{% static 'js/reservation_page.js' %}">
+    </script>
+
+
+</body>
+
+</html>

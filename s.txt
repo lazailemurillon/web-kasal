@@ -1,0 +1,1 @@
+fashion_env\Scripts\activate

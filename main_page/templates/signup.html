@@ -1,0 +1,306 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up | Atelier Réservé</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/signup.css' %}">
+
+</head>
+
+
+<body>
+
+    <main class="signup-page">
+
+        <div class="signup-container">
+
+
+            <!-- =====================================
+                 BACK BUTTON
+            ====================================== -->
+
+            <button type="button" class="back-button" id="backButton" data-home-url="{% url 'main_page' %}">
+                <span>‹</span>
+                Back
+            </button>
+
+
+            <!-- =====================================
+                 BRAND
+            ====================================== -->
+
+            <div class="signup-brand">
+                <span class="brand-symbol">✦</span>
+                <span>Kasal Avenue</span>
+            </div>
+
+
+            <!-- =====================================
+                 STEP 1 — CHOOSE ACCOUNT TYPE
+            ====================================== -->
+
+            <section class="signup-step active" id="welcomeStep">
+                <div class="step-label">CONTINUE AS</div>
+                <h1>Welcome</h1>
+
+                <!-- CUSTOMER -->
+
+                <button type="button" class="account-option" id="customerOption">
+                    <span class="option-icon">♙</span>
+                    <span class="option-content">
+                        <strong>I'm Looking for a Gown</strong>
+                        <small>
+                            Browse our collection, upload inspiration
+                            photos, and make a reservation.
+                        </small>
+                    </span>
+                    <span class="option-arrow">›</span>
+                </button>
+
+
+                <!-- STAFF -->
+
+                <button type="button" class="account-option" id="staffOption">
+                    <span class="option-icon">♢</span>
+                    <span class="option-content">
+
+                        <strong>I'm Staff</strong>
+
+                        <small>
+                            Manage inventory, track reservations, and coordinate workflows.
+                        </small>
+                    </span>
+
+                    <span class="option-arrow">›</span>
+
+                </button>
+
+            </section>
+
+
+            <!-- =====================================
+                 STEP 2 — CUSTOMER SIGNUP
+            ====================================== -->
+
+            <section class="signup-step" id="customerStep">
+
+                <div class="step-label">CUSTOMER ACCOUNT</div>
+
+                <h1>Create Account</h1>
+
+                <p class="form-description">
+                    Create your account to browse gowns,
+                    upload inspiration photos, and make reservations.
+                </p>
+
+
+                <form method="POST" action="{% url 'signup' %}" class="signup-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="account_type" value="customer">
+
+
+                    <!-- FIRST NAME -->
+
+                    <div class="form-group">
+
+                        <label for="customerFirstName">
+                            FIRST NAME
+                            <span>*</span>
+                        </label>
+
+                        <input type="text" id="customerFirstName" name="first_name" placeholder="First name" required>
+                    </div>
+
+
+                    <!-- LAST NAME -->
+
+                    <div class="form-group">
+
+                        <label for="customerLastName">LAST NAME
+                            <span>*</span>
+                        </label>
+
+                        <input type="text" id="customerLastName" name="last_name" placeholder="Last name" required>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="customerEmail">
+                            EMAIL ADDRESS
+                            <span>*</span>
+                        </label>
+
+                        <input type="email" id="customerEmail" name="email" placeholder="you@example.com" required>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="customerPassword">
+                            PASSWORD
+                            <span>*</span>
+                        </label>
+
+                        <input type="password" id="customerPassword" name="password" placeholder="Create a password" required>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="customerConfirmPassword">
+                            CONFIRM PASSWORD
+                            <span>*</span>
+                        </label>
+
+                        <input type="password" id="customerConfirmPassword" name="confirm_password" placeholder="Confirm your password" required>
+
+                    </div>
+
+
+                    <button type="submit" class="create-account-button">
+                        CREATE ACCOUNT
+                    </button>
+
+                </form>
+
+
+                <div class="existing-account">
+                    Already have an account?
+                    <a href="{% url 'login' %}">Login</a>
+
+                </div>
+
+            </section>
+
+
+            <!-- =====================================
+                 STEP 3 — STAFF SIGNUP
+            ====================================== -->
+
+            <section class="signup-step" id="staffStep">
+                <div class="step-label">STAFF ACCOUNT</div>
+
+                <h1>Create Staff Account</h1>
+
+                <p class="form-description">Enter your employee information to create your staff account.</p>
+
+
+                <form method="POST" action="{% url 'signup' %}" class="signup-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="account_type" value="staff">
+
+
+                    <!-- FIRST NAME -->
+
+                    <div class="form-group">
+
+                        <label for="staffFirstName">
+                            FIRST NAME
+                            <span>*</span>
+                        </label>
+
+                        <input type="text" id="staffFirstName" name="first_name" placeholder="First name" required>
+
+                    </div>
+
+
+                    <!-- LAST NAME -->
+
+                    <div class="form-group">
+
+                        <label for="staffLastName">
+                            LAST NAME
+                            <span>*</span>
+                        </label>
+
+                        <input type="text" id="staffLastName" name="last_name" placeholder="Last name" required>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+                        <label for="staffEmail">
+                            EMAIL ADDRESS
+                            <span>*</span>
+                        </label>
+
+                        <input type="email" id="staffEmail" name="email" placeholder="staff@example.com" required>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="staffPassword">
+                            PASSWORD
+                            <span>*</span>
+                        </label>
+
+                        <input type="password" id="staffPassword" name="password" placeholder="Create a password" required>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="staffConfirmPassword">
+                            CONFIRM PASSWORD
+                            <span>*</span>
+                        </label>
+
+                        <input type="password" id="staffConfirmPassword" name="confirm_password" placeholder="Confirm your password" required>
+                    </div>
+
+                    <button type="submit" class="create-account-button">
+                        CREATE ACCOUNT
+                    </button>
+
+                </form>
+
+
+                <div class="existing-account">
+                    Already have an account?
+                    <a href="{% url 'login' %}">Login</a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script src="{% static 'js/signup.js' %}"></script>
+
+</body>
+
+</html>

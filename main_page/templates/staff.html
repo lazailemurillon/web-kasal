@@ -1,0 +1,986 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kasal Avenue - Admin</title>
+
+    <link rel="stylesheet" href="{% static 'css/staff.css' %}">
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================================================
+         TOP NAVIGATION
+    ========================================================== -->
+    <header class="topbar">
+
+        <div class="brand">
+            <span class="brand-star">✧</span>
+            <span class="brand-name">Kasal Avenue</span>
+            <span class="brand-label">ADMIN</span>
+        </div>
+
+        <nav class="main-nav">
+
+            <button class="nav-tab active" data-tab="reservations">Reservations</button>
+
+            <button class="nav-tab" data-tab="gowns">Gowns</button>
+            <button class="nav-tab" data-tab="staff">Staff Members</button>
+        </nav>
+
+        <div class="topbar-right">
+            <form method="post" action="{% url 'logout' %}" class="logout-form"
+                onsubmit="return confirmLogout();">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Log Out</button>
+            </form>
+        </div>
+        <script>
+        function confirmLogout() {
+            return window.confirm("Are you sure you want to logout?");
+        }
+        </script>
+
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+    <main class="main-content">
+        <!-- =====================================================
+             RESERVATIONS TAB
+        ====================================================== -->
+        <section id="reservations-tab" class="tab-content active">
+
+            <aside class="filter-sidebar">
+
+                <div class="sidebar-title">
+                    <span>⌁</span>
+                    FILTERS
+                </div>
+
+                <div class="filter-section">
+
+                    <label>DATE RANGE</label>
+
+                    <div class="filter-field">
+                        <span>From</span>
+                        <input type="date" id="reservation-date-from">
+                    </div>
+
+                    <div class="filter-field">
+                        <span>To</span>
+                        <input type="date" id="reservation-date-to">
+                    </div>
+
+                </div>
+
+
+                <div class="filter-section">
+
+                    <label>STATUS</label>
+
+                    <label class="checkbox-row">
+                        <input type="checkbox" value="Confirmed" class="reservation-status-filter">
+                        <span>Confirmed</span>
+                    </label>
+
+                    <label class="checkbox-row">
+                        <input type="checkbox" value="Completed" class="reservation-status-filter">
+                        <span>Completed</span>
+                    </label>
+
+                    <label class="checkbox-row">
+                        <input type="checkbox" value="Cancelled" class="reservation-status-filter">
+                        <span>Cancelled</span>
+                    </label>
+
+                </div>
+
+
+                <div class="filter-section">
+
+                    <label>CUSTOMER</label>
+
+                    <div class="search-box">
+                        <span>⌕</span>
+                        <input type="text" id="customer-search" placeholder="Search name...">
+                    </div>
+
+                </div>
+
+
+                <div class="filter-section">
+                    <label>GOWN</label>
+
+                    <div class="search-box">
+                        <span>⌕</span>
+                        <input type="text" id="reservation-gown-search" placeholder="Search gown...">
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <div class="content-area">
+
+                <div class="content-header">
+
+                    <div>
+                        <span class="record-count">0</span>
+                        <span> of <span id="total-gown-count">0</span> gowns</span>
+                    </div>
+
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="data-table reservation-table">
+
+                        <thead>
+                            <tr>
+                                <th>REF</th>
+                                <th>DATE</th>
+                                <th>TIME</th>
+                                <th>GOWN</th>
+                                <th>CUSTOMER</th>
+                                <th>STATUS</th>
+                                <th>PREP</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="reservation-table-body">
+
+                            <!-- SAMPLE RECORD -->
+                            {% for reservation in reservations %}
+                            <tr
+                                class="reservation-row"
+
+                                data-id="{{ reservation.id }}"
+
+                                data-status="{{ reservation.status|title }}"
+
+                                data-customer="{{ reservation.user.get_full_name|default:reservation.customer_email }}"
+
+                                data-gown="{{ reservation.gown.name }}"
+
+                                data-date="{{ reservation.date|date:'Y-m-d' }}"
+                            >
+
+
+                                <td class="reference">
+                                    R-{{ reservation.id }}
+                                </td>
+
+
+                                <td>
+                                    {{ reservation.date|date:"Y-m-d" }}
+                                </td>
+
+
+                                <td>
+                                    {{ reservation.time_slot }}
+                                </td>
+
+
+                                <td class="gown-name">
+                                    {{ reservation.gown.name }}
+                                </td>
+
+
+                                <td>
+
+                                    <div class="customer-name">
+
+                                        {{ reservation.user.get_full_name }}
+
+                                    </div>
+
+                                    <div class="customer-email">
+
+                                        {{ reservation.customer_email }}
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="status-badge {{ reservation.status }}">
+
+                                        {{ reservation.get_status_display|upper }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="prep-badge {{ reservation.prep }}">
+
+                                        {{ reservation.get_prep_display|upper }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        type="button"
+                                        class="table-action edit-reservation"
+
+                                        data-id="{{ reservation.id }}"
+
+                                        data-reference="R-{{ reservation.id }}"
+
+                                        data-date="{{ reservation.date|date:'Y-m-d' }}"
+
+                                        data-time="{{ reservation.time_slot }}"
+
+                                        data-gown="{{ reservation.gown.name }}"
+
+                                        data-customer="{{ reservation.user.get_full_name }}"
+
+                                        data-email="{{ reservation.customer_email }}"
+
+                                        data-status="{{ reservation.status }}"
+
+                                        data-prep="{{ reservation.prep }}"
+
+                                        data-update-url="{% url 'update_reservation' reservation.id %}">
+
+                                        Edit
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="8">
+                                    No reservations found.
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GOWNS TAB
+        ====================================================== -->
+        <section id="gowns-tab" class="tab-content">
+
+            <aside class="filter-sidebar gown-sidebar">
+
+                <button class="add-gown-btn" id="add-gown-btn">
+                    <span>+</span>
+                    ADD NEW GOWN
+                </button>
+
+
+                <div class="sidebar-title filter-title">
+                    <span>☷</span>
+                    FILTERS
+                </div>
+
+
+                <div class="filter-section">
+
+                    <label>SEARCH</label>
+
+                    <div class="search-box">
+                        <span>⌕</span>
+                        <input type="text" id="gown-search" placeholder="Search gown...">
+                    </div>
+
+                </div>
+
+
+                <!--div class="filter-section">
+                    <label>COLOR</label>
+                    <label class="color-filter active" data-color="all">
+                        <span class="color-dot all"></span>
+                        All
+                    </label>
+                    {% for value, label in color_choices %}
+
+                        <label class="color-filter" data-color="{{ value }}">
+                            <span class="color-dot {{ value }}"></span>
+                            {{ label }}
+                        </label>
+
+                    {% endfor %}
+                </div-->
+
+                <div class="filter-section">
+
+                    <label>SIZE</label>
+
+                    <div class="size-filters">
+                        {% for value, label in size_choices %}
+                            <button type="button" data-size="{{ value }}">
+                                {{ label }}
+                            </button>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
+                <div class="filter-section">
+                    <label>STYLE</label>
+                    <label class="style-filter active" data-style="all">
+                        <span></span>
+                        All
+                    </label>
+
+                    {% for value, label in style_choices %}
+
+                        <label class="style-filter" data-style="{{ value }}">
+                            <span></span>
+                            {{ label }}
+                        </label>
+                    {% endfor %}
+                </div>
+
+            </aside>
+
+
+            <div class="content-area gown-content">
+
+                <div class="content-header">
+
+                    <div>
+                        <span class="record-count">
+                            {{ reservations|length }}
+                        </span>
+
+                        <span>
+                            reservations
+                        </span>
+                    </div>
+
+
+                </div>
+
+                <div class="gown-grid" id="gown-grid">
+                    {% for gown in gowns %}
+                    <article class="gown-card" data-gown-name="{{ gown.name }}" data-color="{{ gown.color }}" data-style="{{ gown.style }}" data-size="{{ gown.size }}">
+                        <div class="gown-image-container">
+                            {% if gown.image %}
+                                <img src="{{ gown.image.url }}" alt="{{ gown.name }}" class="gown-image">
+                            {% else %}
+                                <div class="sample-gown-image">
+                                    <div class="sample-gown-silhouette">✧</div>
+                                </div>
+                            {% endif %}
+
+                            <!--{% if gown.is_reserved %}
+                                <span class="availability-badge reserved">Reserved</span>
+                            {% else %}
+                                <span class="availability-badge">Available</span>
+                            {% endif %}-->
+
+                        </div>
+                        <div class="gown-card-info">
+                            <h3>{{ gown.name }}</h3>
+                            <div class="gown-tags">
+                                <span>{{ gown.get_color_display }}</span>
+                                <span>{{ gown.get_style_display }}</span>
+                                <span>{{ gown.size }}</span>
+                            </div>
+
+                            <div class="gown-card-bottom">
+                                <span class="gown-price">
+                                    ${{ gown.price }}
+                                </span>
+                                <div class="gown-actions">
+                                    <button
+                                        class="icon-btn edit-gown"
+                                        title="Edit"
+                                        data-id="{{ gown.id }}"
+                                        data-name="{{ gown.name }}"
+                                        data-price="{{ gown.price }}"
+                                        data-color="{{ gown.color }}"
+                                        data-style="{{ gown.style }}"
+                                        data-size="{{ gown.size }}"
+                                    >✎</button>
+                                    <button class="icon-btn delete-gown" title="Delete" data-id="{{ gown.id }}" data-name="{{ gown.name }}">♜</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <div class="no-gowns">
+                        <p>No gowns found.</p>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             STAFF MEMBERS TAB
+        ====================================================== -->
+        <section id="staff-tab" class="tab-content">
+
+            <aside class="filter-sidebar">
+
+                <div class="sidebar-title">
+                    <span>⌁</span>
+                    FILTERS
+                </div>
+
+
+                <div class="filter-section">
+
+                    <label>SEARCH STAFF</label>
+
+                    <div class="search-box">
+                        <span>⌕</span>
+                        <input type="text" id="staff-search" placeholder="Search name...">
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <div class="content-area">
+
+                <div class="content-header">
+
+                    <div>
+                        <span class="record-count">{{ staff_members|length }}</span>
+                        <span> staff members</span>
+                    </div>
+
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="data-table staff-table">
+
+                        <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>EMAIL ADDRESS</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="staff-table-body">
+                        {% for staff in staff_members %}
+                        <tr
+                            class="staff-row"
+                            data-name="{{ staff.user.get_full_name|lower }}"
+                            data-email="{{ staff.user.email|lower }}"
+                            data-status="{{ staff.status }}"
+                        >
+
+                            <td class="staff-name">
+                                {{ staff.user.get_full_name }}
+                            </td>
+
+                            <td class="staff-email">
+                                {{ staff.user.email }}
+                            </td>
+
+                            <td>
+                                <span class="status-badge {{ staff.status }}">
+                                    {{ staff.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <button
+                                    type="button"
+                                    class="table-action edit-staff"
+                                    data-id="{{ staff.id }}"
+                                    data-name="{{ staff.user.get_full_name }}"
+                                    data-email="{{ staff.user.email }}"
+                                    data-status="{{ staff.status }}"
+                                >
+                                    Edit
+                                </button>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="4">
+                                No staff members found.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =============================================================
+     RESERVATION EDIT MODAL
+============================================================== -->
+<div class="modal-overlay" id="reservation-modal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="modal-kicker">EDIT RESERVATION</span>
+                <h2>Reservation</h2>
+            </div>
+
+            <button class="modal-close" data-close="reservation-modal">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="reservation-summary">
+
+                <div>
+                    <span>REFERENCE</span>
+                    <strong id="reservation-ref"></strong>
+                </div>
+
+                <div>
+                    <span>CUSTOMER</span>
+                    <strong id="reservation-customer"></strong>
+                </div>
+
+                <div>
+                    <span>GOWN</span>
+                    <strong id="reservation-gown"></strong>
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="reservation-status">STATUS</label>
+
+                    <select id="reservation-status">
+                        <option value="confirmed">Confirmed</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="reservation-prep">PREP</label>
+
+                    <select id="reservation-prep">
+                        <option value="reserved">Reserved</option>
+                        <option value="pulled">Pulled</option>
+                        <option value="ready">Ready</option>
+                        <option value="cleaned">Cleaned</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button class="secondary-btn" data-close="reservation-modal">Cancel</button>
+
+            <button class="primary-btn" id="save-reservation">
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     GOWN EDIT MODAL
+============================================================== -->
+<div class="modal-overlay" id="gown-modal">
+
+    <div class="modal gown-modal">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="modal-kicker">EDIT GOWN</span>
+
+                <h2 id="gown-modal-title">
+                    Edit Gown
+                </h2>
+            </div>
+
+            <button
+                class="modal-close"
+                data-close="gown-modal">
+                ×
+            </button>
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <label for="gown-name">
+                    GOWN NAME *
+                </label>
+
+                <input
+                    type="text"
+                    id="gown-name"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="gown-price">
+                    PRICE *
+                </label>
+
+                <input
+                    type="number"
+                    id="gown-price"
+                    min="0"
+                    step="0.01"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="gown-color">
+                    COLOR
+                </label>
+
+                <select id="gown-color">
+
+                    {% for value, label in color_choices %}
+
+                        <option value="{{ value }}">
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="gown-style">
+                    STYLE
+                </label>
+
+                <select id="gown-style">
+
+                    {% for value, label in style_choices %}
+
+                        <option value="{{ value }}">
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="gown-size">
+                    SIZE
+                </label>
+
+                <select id="gown-size">
+
+                    {% for value, label in size_choices %}
+
+                        <option value="{{ value }}">
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="gown-image">
+                    REPLACE IMAGE
+                </label>
+
+                <input
+                    type="file"
+                    id="gown-image"
+                    accept="image/*">
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="secondary-btn"
+                data-close="gown-modal">
+                Cancel
+            </button>
+
+            <button
+                class="primary-btn"
+                id="save-gown">
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =============================================================
+     ADD GOWN MODAL
+============================================================== -->
+<div class="modal-overlay" id="add-gown-modal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="modal-kicker">NEW GOWN</span>
+                <h2>Add New Gown</h2>
+            </div>
+
+            <button class="modal-close" data-close="add-gown-modal">×</button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="form-group">
+                <label>GOWN IMAGE</label>
+                <input type="file" id="new-gown-image" accept="image/*" required>
+            </div>
+
+            <div class="form-group">
+                <label>GOWN NAME *</label>
+                <input type="text" id="new-gown-name" placeholder="Enter gown name">
+            </div>
+
+            <div class="form-group">
+                <label for="new-gown-price">PRICE *</label>
+                <input type="number" id="new-gown-price" placeholder="Enter gown price" min="0" step="0.01" required>
+            </div>
+
+
+           <div class="form-group">
+                <label for="new-gown-color">COLOR NAME</label>
+                <select id="new-gown-color">
+                    {% for value, label in color_choices %}
+                        <option value="{{ value }}">
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="new-gown-style">STYLE</label>
+                <select id="new-gown-style">
+                    {% for value, label in style_choices %}
+                        <option value="{{ value }}">
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="new-gown-size">SIZE</label>
+                <select id="new-gown-size">
+                    {% for value, label in size_choices %}
+                        <option value="{{ value }}">
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button class="secondary-btn" data-close="add-gown-modal">Cancel</button>
+
+            <button class="primary-btn" id="create-gown">Add Gown</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     STAFF EDIT MODAL
+============================================================== -->
+<div class="modal-overlay" id="staff-modal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="modal-kicker">STAFF MEMBER</span>
+                <h2>Edit Staff Member</h2>
+            </div>
+
+            <button class="modal-close" data-close="staff-modal">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+
+            <div class="form-group">
+                <label for="staff-name">NAME</label>
+                <input type="text" id="staff-name">
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="staff-email">EMAIL ADDRESS</label>
+
+                <input type="email" id="staff-email">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="staff-status">STATUS</label>
+
+                <select id="staff-status">
+                    <option value="pending">Pending</option>
+                    <option value="verified">Verified</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer staff-footer">
+
+            <button class="danger-btn" id="delete-staff">Delete Staff</button>
+            <div class="modal-footer-right">
+                <button class="secondary-btn" data-close="staff-modal">Cancel</button>
+
+                <button class="primary-btn" id="save-staff">Save Changes</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="{% static 'js/staff.js' %}"></script>
+
+</body>
+</html>

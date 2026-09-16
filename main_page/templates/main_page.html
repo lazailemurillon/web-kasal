@@ -1,0 +1,362 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kasal ATB</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/main_page.css' %}">
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="site-header">
+
+        <div class="logo-area">
+            <span class="logo-symbol">✦</span>
+            <span class="logo-name">Kasal Avenue</span>
+        </div>
+
+
+        {% if user.is_authenticated %}
+
+            <!-- LOGGED IN HEADER -->
+
+            <nav class="logged-in-nav">
+
+                <a href="{% url 'main_page' %}">Browse</a>
+
+                <a href="{% url 'reservations' %}">My Reservations</a>
+
+                <form method="post" action="{% url 'logout' %}" class="logout-form"
+                    onsubmit="return confirmLogout();">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+
+                <script>
+                function confirmLogout() {
+                    return confirm("Are you sure you want to logout?");
+                }
+                </script>
+
+            </nav>
+
+        {% else %}
+
+            <!-- LOGGED OUT HEADER -->
+
+            <nav class="logged-out-nav">
+
+                <a href="{% url 'login' %}" class="header-login">Login</a>
+
+                <a href="{% url 'signup' %}"class="signup-button">Sign Up</a>
+            </nav>
+
+        {% endif %}
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+
+        <!-- SEARCH / FILTER AREA -->
+
+        <section class="catalog-controls">
+
+            <div class="search-wrapper">
+                <span class="search-icon">⌕</span>
+
+                <input type="text" id="searchInput" placeholder="Search attire name...">
+            </div>
+
+
+            <button type="button" class="filter-button" id="filterButton"> ☷ FILTERS </button>
+
+
+            <button type="button" class="upload-button" id="uploadInspirationButton" data-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
+                ↑ UPLOAD INSPIRATION PHOTO
+                <span class="ai-label">AI</span>
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             FILTER PANEL
+        ========================== -->
+
+        <section class="filter-panel" id="filterPanel">
+
+            <!-- COLOR -->
+            <div class="filter-group">
+                <h4>COLOR</h4>
+
+                {% for value, label in color_choices %}
+
+                    <label>
+                        <input type="checkbox" value="{{ value }}" class="color-filter">
+                        {{ label }}
+                    </label>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- SIZE -->
+            <div class="filter-group">
+                <h4>SIZE</h4>
+                <div class="size-options">
+                    {% for value, label in size_choices %}
+                        <button type="button" value="{{ value }}">
+                            {{ label }}
+                        </button>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+
+            <!-- STYLE -->
+
+            <div class="filter-group">
+                <h4>STYLE</h4>
+                {% for value, label in style_choices %}
+                    <label>
+                        <input type="checkbox" value="{{ value }}" class="style-filter">
+                        {{ label }}
+                    </label>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CATALOG
+        ========================== -->
+
+        <section class="catalog-section">
+
+            <div class="catalog-heading">
+
+                <span>
+                    {{ gowns|length }} pieces
+                </span>
+
+            </div>
+
+
+            <div class="catalog-grid">
+
+                {% for gown in gowns %}
+
+                    <article class="gown-card" data-gown-id="{{ gown.id }}" data-name="{{ gown.name|lower }}" data-color="{{ gown.color }}" data-style="{{ gown.style }}" data-size="{{ gown.size }}">
+                        <div class="gown-image-container">
+                            <img src="{{ gown.image.url }}" alt="{{ gown.name }}" class="gown-image">
+
+                            <!-- COLOR DOT>
+
+                            <span
+                                class="color-dot color-{{ gown.color }}">
+                            </span-->
+
+
+                            <!-- HOVER ACTION -->
+
+                            {% if gown.is_reserved %}
+
+                                <div class="gown-overlay reserved-overlay">
+                                    <span>RESERVED</span>
+                                </div>
+
+                            {% else %}
+
+                                {% if user.is_authenticated %}
+
+                                    <a href="{% url 'booking' gown.id %}" class="gown-overlay book-link">
+                                        <span class="book-now-button">BOOK NOW</span>
+
+                                    </a>
+
+                                {% else %}
+
+                                    <div class="gown-overlay">
+                                        <button class="book-now-button" data-gown-id="{{ gown.id }}">
+                                            BOOK NOW
+                                        </button>
+
+                                    </div>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="gown-info">
+                            <div class="gown-name-row">
+                                <h3>
+                                    {{ gown.name }}
+                                </h3>
+
+                                <span class="gown-price">
+                                    ₱{{ gown.price }}
+                                </span>
+                            </div>
+
+
+                            <div class="gown-tags">
+
+                                <span class="gown-tag">
+                                    {{ gown.get_color_display }}
+                                </span>
+
+                                <span class="gown-tag">
+                                    {{ gown.size }}
+                                </span>
+
+                                {% if gown.is_reserved %}
+                                    <span class="gown-tag availability-tag reserved">
+                                        <span class="availability-dot"></span>
+                                        RESERVED
+                                    </span>
+                                {% else %}
+                                    <span class="gown-tag availability-tag available">
+                                        <span class="availability-dot"></span>
+                                        AVAILABLE
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                {% empty %}
+
+                    <p class="empty-message">
+                        No gowns available yet.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+     INSPIRATION PHOTO MODAL
+    ========================== -->
+
+    {% if user.is_authenticated %}
+
+    <div
+        class="modal-backdrop"
+        id="uploadModal">
+
+        <div class="upload-modal">
+
+            <button type="button" class="modal-close" id="closeUploadModal">×</button>
+
+            <div class="modal-icon">AI</div>
+
+
+            <h2>Upload Inspiration</h2>
+
+
+            <p>
+                Upload a photo of a gown or style that inspires you. Our AI will help you find similar pieces from our collection.
+            </p>
+
+
+            <div
+                class="upload-drop-area" id="uploadDropArea">
+                <div class="upload-icon">↑</div>
+
+                <h3>Upload an inspiration photo</h3>
+
+                <p>JPG, PNG or WEBP</p>
+
+                <label for="inspirationPhoto" class="choose-photo-button">CHOOSE PHOTO</label>
+
+                <input type="file"id="inspirationPhoto" accept="image/jpeg,image/png,image/webp" hidden>
+
+            </div>
+
+
+            <div class="selected-photo" id="selectedPhoto">
+                <span class="selected-photo-icon">✓</span>
+                <span id="selectedPhotoName">Photo selected</span>
+                <button type="button" id="removePhoto">REMOVE</button>
+            </div>
+
+
+
+            <button type="button" class="find-gowns-button" id="findGownsButton" disabled>
+                FIND SIMILAR GOWNS
+            </button>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- =========================
+         LOGIN MODAL
+    ========================== -->
+    {% if not user.is_authenticated %}
+    <div class="modal-backdrop" id="loginModal">
+        <div class="login-modal">
+            <button class="modal-close" id="closeModal"> ×</button>
+            <div class="modal-icon">
+                ↪
+            </div>
+            <h2>
+                Login to Reserve
+            </h2>
+            <p>
+                Please login or create an account
+                to reserve a gown from our collection.
+            </p>
+
+            <a href="{% url 'login' %}" class="modal-login-button">
+                LOGIN TO MY ACCOUNT
+            </a>
+
+            <a href="{% url 'signup' %}" class="modal-signup-button">
+                CREATE NEW ACCOUNT
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <script src="{% static 'js/main_page.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    background: #0d0c0b;
+    color: #eeeae3;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+
+/* =========================================
+   MAIN PAGE
+========================================= */
+
+.reservations-page {
+    width: 624px;
+    margin: 31px auto 60px;
+}
+
+
+/* =========================================
+   ACCOUNT LABEL
+========================================= */
+
+.account-label {
+    color: #c6942e;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 9px;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+h1 {
+    margin: 0;
+
+    color: #eeeae3;
+
+    font-size: 25px;
+
+    font-weight: normal;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================
+   SECTION
+========================================= */
+
+.reservation-section {
+    margin-top: 35px;
+}
+
+.past-section {
+    margin-top: 40px;
+}
+
+.section-label {
+    margin-bottom: 16px;
+
+    color: #918b82;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+.section-label span {
+    color: #aaa297;
+
+    padding: 0 3px;
+}
+
+
+/* =========================================
+   RESERVATION CARD
+========================================= */
+
+.reservation-card {
+    width: 624px;
+
+    min-height: 140px;
+
+    display: flex;
+
+    padding: 16px;
+
+    background: #191816;
+
+    border: 1px solid #3b3427;
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.reservation-image {
+    width: 80px;
+    height: 108px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    background: #29251f;
+}
+
+.reservation-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* First image in screenshot is broken.
+   This recreates the dark image area. */
+
+.celestine-image {
+    background: #29251f;
+}
+
+.broken-image {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: flex-start;
+
+    padding-top: 2px;
+
+    color: #e7e1d8;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
+    line-height: 26px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.reservation-content {
+    flex: 1;
+
+    min-width: 0;
+
+    margin-left: 16px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.reservation-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+}
+
+.reservation-header h2 {
+    margin: 0 0 5px;
+
+    color: #eee9e1;
+
+    font-size: 17px;
+
+    font-weight: normal;
+
+    line-height: 1.2;
+}
+
+.reservation-number {
+    color: #c49232;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+    margin-top: 1px;
+
+    padding: 4px 9px;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+}
+
+.confirmed {
+    color: #d39a2d;
+
+    background: #2b261b;
+}
+
+.completed {
+    color: #20c957;
+
+    background: #10281a;
+}
+
+
+/* =========================================
+   DATE
+========================================= */
+
+.reservation-date {
+    margin-top: 10px;
+
+    color: #999289;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 10px;
+}
+
+.calendar {
+    margin-right: 5px;
+
+    color: #777168;
+}
+
+.time {
+    margin-left: 15px;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.reservation-buttons {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 15px;
+}
+
+.view-button,
+.cancel-button {
+    height: 30px;
+
+    padding: 0 15px;
+
+    background: transparent;
+
+    border: 1px solid #4c402c;
+
+    color: #c79736;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+}
+
+.view-button:hover,
+.cancel-button:hover {
+    background: #292319;
+
+    border-color: #80652f;
+}
+
+.cancel-button {
+    color: #a17e51;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .reservations-page {
+        width: calc(100% - 30px);
+
+        margin: 30px auto;
+    }
+
+    .reservation-card {
+        width: 100%;
+    }
+
+    .reservation-header {
+        gap: 10px;
+    }
+
+    .reservation-header h2 {
+        font-size: 15px;
+    }
+
+}

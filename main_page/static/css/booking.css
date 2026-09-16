@@ -1,0 +1,491 @@
+/* ==========================================
+   BOOKING PAGE
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0d0b0a;
+    color: #f1e8dc;
+    font-family: Arial, sans-serif;
+}
+
+.booking-page {
+    min-height: 100vh;
+    padding: 30px 3.5%;
+}
+
+
+/* ==========================================
+   BACK TO COLLECTION
+========================================== */
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 28px;
+
+    color: #a89b8d;
+    text-decoration: none;
+
+    font-size: 12px;
+    letter-spacing: 0.5px;
+
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #c9a957;
+}
+
+
+/* ==========================================
+   MAIN LAYOUT
+========================================== */
+
+.booking-layout {
+    display: grid;
+
+    grid-template-columns: 58% 42%;
+
+    gap: 40px;
+
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================
+   GOWN IMAGE
+========================================== */
+
+.booking-image {
+    width: 100%;
+    height: 650px;
+
+    overflow: hidden;
+
+    background: #181512;
+}
+
+.booking-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* ==========================================
+   DETAILS
+========================================== */
+
+.booking-details {
+    padding: 5px 0 40px 0;
+}
+
+.gown-style {
+    margin-bottom: 10px;
+
+    color: #d0ad4d;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.booking-details h1 {
+    margin: 0 0 5px 0;
+
+    color: #f4eee7;
+
+    font-family: Georgia, serif;
+
+    font-size: 34px;
+    font-weight: 400;
+
+    line-height: 1.15;
+}
+
+.designer {
+    margin: 0 0 16px 0;
+
+    color: #96897c;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   RATING
+========================================== */
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 18px;
+
+    color: #a89b8d;
+
+    font-size: 12px;
+}
+
+.stars {
+    color: #c9a957;
+
+    letter-spacing: 2px;
+}
+
+
+/* ==========================================
+   GOWN TAGS
+========================================== */
+
+.gown-tags {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-bottom: 30px;
+}
+
+.gown-tags span {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    background: #211e1a;
+
+    color: #918579;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+
+/* ==========================================
+   LABELS
+========================================== */
+
+.size-section label,
+.date-section label,
+.time-section label {
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: #b3a69a;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+/* ==========================================
+   SIZE OPTIONS
+========================================== */
+
+.size-options {
+    display: flex;
+    gap: 8px;
+
+    margin-bottom: 24px;
+}
+
+.size-options button {
+    width: 58px;
+    height: 45px;
+
+    border: 1px solid #342f29;
+
+    background: transparent;
+
+    color: #d5ccc2;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.size-options button:hover {
+    border-color: #c9a957;
+
+    color: #c9a957;
+}
+
+.size-options button.selected {
+    border-color: #c9a957;
+
+    background: #c9a957;
+
+    color: #17130f;
+}
+
+
+/* ==========================================
+   DATE
+========================================== */
+
+.date-section {
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.date-section input {
+    width: 100%;
+    height: 52px;
+
+    padding: 0 15px;
+
+    border: 1px solid #342f29;
+
+    background: #181512;
+
+    color: #eee5db;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+
+    outline: none;
+}
+
+.date-section input:focus {
+    border-color: #c9a957;
+}
+
+
+/* ==========================================
+   TIME SLOTS
+========================================== */
+
+.time-section {
+    margin-bottom: 25px;
+}
+
+.time-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 8px;
+}
+
+.time-button {
+    height: 48px;
+
+    border: 1px solid #302b25;
+
+    background: transparent;
+
+    color: #e6ddd3;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.time-button:hover {
+    border-color: #c9a957;
+
+    color: #c9a957;
+}
+
+.time-button.selected {
+    border-color: #c9a957;
+
+    background: #c9a957;
+
+    color: #17130f;
+}
+
+
+/* ==========================================
+   BOOKING ACTIONS
+========================================== */
+
+.booking-actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+/* ==========================================
+   CANCEL
+========================================== */
+
+.cancel-button {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 48px;
+
+    border: 1px solid #342f29;
+
+    color: #9f9388;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.cancel-button:hover {
+    border-color: #8d7d70;
+
+    color: #eee5db;
+}
+
+
+/* ==========================================
+   RESERVE BUTTON
+========================================== */
+
+.reserve-button {
+    width: 100%;
+    min-height: 52px;
+
+    border: none;
+
+    background: #c9a957;
+
+    color: #17130f;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.reserve-button:hover:not(:disabled) {
+    background: #d8bb69;
+}
+
+.reserve-button:disabled {
+    background: #5c5032;
+
+    color: #1b1814;
+
+    cursor: not-allowed;
+
+    opacity: 0.8;
+}
+
+
+/* ==========================================
+   DJANGO MESSAGES
+========================================== */
+
+.messages {
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px 15px;
+
+    border: 1px solid #40382f;
+
+    background: #181512;
+
+    color: #c9a957;
+
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 900px) {
+
+    .booking-page {
+        padding: 25px 20px;
+    }
+
+    .booking-layout {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .booking-image {
+        height: 500px;
+    }
+
+    .booking-details h1 {
+        font-size: 30px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .booking-page {
+        padding: 20px 15px;
+    }
+
+    .booking-image {
+        height: 420px;
+    }
+
+    .booking-details h1 {
+        font-size: 27px;
+    }
+
+    .time-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .size-options button {
+        width: 50px;
+    }
+
+}

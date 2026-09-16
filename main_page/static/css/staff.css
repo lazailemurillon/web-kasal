@@ -1,0 +1,1361 @@
+/* ============================================================
+   GLOBAL
+============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0d0c0b;
+    --panel: #121110;
+    --panel-light: #211f1c;
+    --panel-lighter: #292621;
+
+    --gold: #c6a34f;
+    --gold-light: #d7b75e;
+    --gold-dark: #8e742e;
+
+    --border: #38332a;
+    --border-light: #494237;
+
+    --text: #f2eee5;
+    --text-muted: #9b958b;
+    --text-dark: #6f695f;
+
+    --green: #3cbd72;
+    --blue: #3985d7;
+    --red: #c55d5d;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    font-size: 13px;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* ============================================================
+   LAYOUT
+============================================================ */
+
+.admin-layout {
+    min-height: 100vh;
+    background: var(--bg);
+}
+
+
+/* ============================================================
+   TOPBAR
+============================================================ */
+
+.topbar {
+    height: 55px;
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+
+    background: #0e0d0c;
+}
+
+.brand {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    white-space: nowrap;
+}
+
+.brand-star {
+    color: var(--gold);
+    font-size: 19px;
+    margin-right: 7px;
+}
+
+.brand-name {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    color: #eee9df;
+}
+
+.brand-label {
+    margin-left: 10px;
+
+    padding: 4px 7px;
+
+    background: #211c18;
+
+    color: #765e43;
+
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+
+.main-nav {
+    height: 100%;
+
+    display: flex;
+    align-items: stretch;
+
+    margin-left: 85px;
+    gap: 5px;
+}
+
+.nav-tab {
+    position: relative;
+
+    padding: 0 17px;
+
+    border: 0;
+    background: transparent;
+
+    color: #8e8981;
+
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+.nav-tab:hover {
+    color: var(--text);
+}
+
+.nav-tab.active {
+    color: var(--gold-light);
+}
+
+.nav-tab.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 7px;
+    right: 7px;
+    bottom: 0;
+
+    height: 1px;
+
+    background: var(--gold);
+}
+
+
+.topbar-right {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    border: 1px solid var(--border);
+    padding: 9px 17px;
+    color: #765e43;
+    font-size: 11px;
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+}
+
+
+/* ============================================================
+   TAB CONTENT
+============================================================ */
+
+.tab-content {
+    display: none;
+
+    min-height: calc(100vh - 55px);
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+
+/* ============================================================
+   SIDEBAR
+============================================================ */
+
+.filter-sidebar {
+    width: 200px;
+
+    flex-shrink: 0;
+
+    border-right: 1px solid var(--border);
+
+    background: #0e0d0c;
+}
+
+.sidebar-title {
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 10px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: #ddd7cd;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+.sidebar-title span {
+    color: var(--gold);
+    margin-right: 7px;
+}
+
+
+.filter-section {
+    padding: 18px 10px;
+
+    border-bottom: 1px solid #28251f;
+}
+
+.filter-section > label:first-child {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #8f887e;
+
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+
+.filter-field {
+    margin-bottom: 11px;
+}
+
+.filter-field span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #777168;
+
+    font-size: 9px;
+}
+
+.filter-field input {
+    width: 100%;
+}
+
+
+/* ============================================================
+   INPUTS
+============================================================ */
+
+input,
+select,
+textarea {
+    width: 100%;
+
+    border: 1px solid var(--border);
+
+    outline: none;
+
+    background: #211f1c;
+
+    color: #e9e3d9;
+
+    border-radius: 0;
+}
+
+input,
+select {
+    height: 30px;
+
+    padding: 0 9px;
+}
+
+textarea {
+    padding: 10px;
+
+    resize: vertical;
+}
+
+input::placeholder {
+    color: #625d55;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--gold-dark);
+}
+
+
+input[type="date"] {
+    color-scheme: dark;
+}
+
+
+input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+
+    accent-color: var(--gold);
+}
+
+
+.checkbox-row {
+    display: flex !important;
+    align-items: center;
+
+    margin-bottom: 10px;
+
+    color: #948e85 !important;
+
+    font-size: 12px !important;
+
+    cursor: pointer;
+}
+
+.checkbox-row input {
+    margin-right: 8px;
+}
+
+
+/* ============================================================
+   SEARCH
+============================================================ */
+
+.search-box {
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid var(--border);
+
+    background: #211f1c;
+}
+
+.search-box span {
+    padding-left: 9px;
+
+    color: #777168;
+}
+
+.search-box input {
+    border: 0;
+    background: transparent;
+
+    height: 28px;
+}
+
+
+/* ============================================================
+   CONTENT AREA
+============================================================ */
+
+.content-area {
+    flex: 1;
+
+    min-width: 0;
+
+    overflow-x: auto;
+}
+
+.content-header {
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: #837d74;
+
+    font-size: 11px;
+}
+
+.record-count {
+    color: #ddd6cc;
+}
+
+
+/* ============================================================
+   TABLE
+============================================================ */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 900px;
+}
+
+.data-table th {
+    height: 40px;
+
+    padding: 0 16px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: #827c72;
+
+    text-align: left;
+
+    font-size: 9px;
+    font-weight: 500;
+
+    letter-spacing: 0.8px;
+}
+
+.data-table td {
+    height: 63px;
+
+    padding: 8px 16px;
+
+    border-bottom: 1px solid #2b2822;
+
+    color: #ddd8cf;
+
+    font-size: 12px;
+}
+
+.data-table tbody tr:hover {
+    background: #141311;
+}
+
+.reference {
+    color: var(--gold) !important;
+}
+
+.gown-name {
+    color: #eee8df !important;
+    font-weight: 500;
+}
+
+.customer-name {
+    color: #eee8df;
+    margin-bottom: 4px;
+}
+
+.customer-email {
+    color: #777168;
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   STATUS BADGES
+============================================================ */
+
+.status-badge,
+.prep-badge {
+    display: inline-flex;
+    align-items: center;
+
+    height: 20px;
+
+    padding: 0 9px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.4px;
+}
+
+.status-badge.confirmed {
+    background: #29261d;
+    color: #c8a74f;
+}
+
+.status-badge.active {
+    background: #183221;
+    color: #52c57b;
+}
+
+.status-badge.inactive {
+    background: #30221f;
+    color: #c76b5f;
+}
+
+.prep-badge.pulled {
+    background: #332c16;
+    color: #d4ae31;
+}
+
+.prep-badge.ready {
+    background: #173523;
+    color: #49ca78;
+}
+
+.prep-badge.reserved {
+    background: #172b40;
+    color: #4d94e3;
+}
+
+.prep-badge.cleaned {
+    background: #183425;
+    color: #57c478;
+}
+
+
+/* ============================================================
+   TABLE ACTION
+============================================================ */
+
+.table-action {
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #c6beb1;
+
+    font-size: 11px;
+
+    text-decoration: none;
+}
+
+.table-action:hover {
+    color: var(--gold-light);
+}
+
+
+/* ============================================================
+   GOWN SIDEBAR
+============================================================ */
+
+.gown-sidebar {
+    padding-bottom: 20px;
+}
+
+.add-gown-btn {
+    width: calc(100% - 14px);
+
+    height: 37px;
+
+    margin: 8px 7px 10px;
+
+    border: 0;
+
+    background: #c7a653;
+
+    color: #16130e;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.8px;
+}
+
+.add-gown-btn:hover {
+    background: #d4b562;
+}
+
+.add-gown-btn span {
+    font-size: 15px;
+    margin-right: 7px;
+}
+
+
+/* ============================================================
+   COLOR FILTERS
+============================================================ */
+
+.color-filter,
+.style-filter {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 9px;
+
+    color: #948e85;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.color-filter.active,
+.style-filter.active {
+    color: #eee8df;
+}
+
+.color-dot {
+    width: 12px;
+    height: 12px;
+
+    margin-right: 8px;
+
+    border-radius: 50%;
+
+    border: 1px solid #534c42;
+}
+
+.color-dot.all {
+    background: var(--gold);
+}
+
+.color-dot.champagne {
+    background: #e8d7b3;
+}
+
+.color-dot.midnight {
+    background: #25263a;
+}
+
+.color-dot.blush {
+    background: #e5bdb6;
+}
+
+.color-dot.ivory {
+    background: #f0ede4;
+}
+
+.color-dot.sage {
+    background: #91aa92;
+}
+
+.color-dot.noir {
+    background: #191919;
+}
+
+.color-dot.dusty-rose {
+    background: #c79693;
+}
+
+.color-dot.ecru {
+    background: #eee7d4;
+}
+
+
+/* ============================================================
+   SIZE FILTERS
+============================================================ */
+
+.size-filters {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+.size-filters button {
+    width: 35px;
+    height: 35px;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+
+    color: #928b81;
+
+    font-size: 10px;
+}
+
+.size-filters button:hover,
+.size-filters button.active {
+    border-color: var(--gold);
+    color: var(--gold-light);
+}
+
+
+/* ============================================================
+   GOWN GRID
+============================================================ */
+
+.gown-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(260px, 1fr));
+
+    gap: 20px;
+
+    padding: 20px;
+
+    align-items: start;
+}
+
+.gown-card {
+    background: #181715;
+
+    border: 1px solid #27231e;
+
+    min-width: 0;
+}
+
+.gown-image-container {
+    position: relative;
+    height: 380px;
+    width: 100%;
+    background: #28251f;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gown-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain !important;
+    object-position: center center !important;
+
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+
+    background: #28251f;
+}
+
+
+.sample-gown-image {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8fa88e 0%,
+            #728a72 45%,
+            #526752 100%
+        );
+}
+
+.sample-gown-silhouette {
+    width: 120px;
+    height: 280px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.75);
+
+    font-family: Georgia, serif;
+    font-size: 70px;
+
+    border-radius:
+        45% 45% 30% 30% /
+        20% 20% 10% 10%;
+
+    background:
+        linear-gradient(
+            100deg,
+            rgba(255,255,255,.45),
+            rgba(255,255,255,.08),
+            rgba(0,0,0,.18)
+        );
+
+    box-shadow:
+        0 20px 35px rgba(0,0,0,.3);
+}
+
+.availability-badge {
+    position: absolute;
+
+    top: 14px;
+    right: 10px;
+
+    padding: 5px 9px;
+
+    border: 1px solid rgba(70, 194, 113, .5);
+
+    background: rgba(26, 63, 39, .75);
+
+    color: #50c678;
+
+    font-size: 9px;
+}
+
+
+.gown-card-info {
+    padding: 15px 16px 13px;
+}
+
+.gown-card-info h3 {
+    margin: 0 0 4px;
+
+    color: #f1ece4;
+
+    font-family: Georgia, serif;
+
+    font-size: 15px;
+
+    font-weight: normal;
+}
+
+.designer {
+    margin: 0 0 13px;
+
+    color: #7f786f;
+
+    font-size: 10px;
+}
+
+
+.gown-tags {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 5px;
+}
+
+.gown-tags span {
+    padding: 4px 7px;
+
+    background: #24211d;
+
+    color: #777168;
+
+    font-size: 8px;
+}
+
+
+.gown-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 16px;
+}
+
+.gown-price {
+    color: #d4b258;
+
+    font-family: Georgia, serif;
+
+    font-size: 13px;
+}
+
+.gown-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.icon-btn {
+    width: 28px;
+    height: 28px;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+
+    color: #8b8379;
+}
+
+.icon-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+}
+
+
+/* ============================================================
+   MODAL
+============================================================ */
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background: rgba(0, 0, 0, .78);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+
+.modal {
+    width: 100%;
+    max-width: 570px;
+
+    max-height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid var(--border);
+
+    background: #171614;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, .6);
+}
+
+.gown-modal {
+    max-width: 700px;
+}
+
+
+.modal-header {
+    min-height: 70px;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding: 17px 20px;
+
+    border-bottom: 1px solid var(--border);
+
+    background: #211f1c;
+}
+
+.modal-kicker {
+    color: #857c6d;
+
+    font-size: 8px;
+
+    letter-spacing: 1.3px;
+}
+
+.modal-header h2 {
+    margin: 5px 0 0;
+
+    color: #f2ede4;
+
+    font-family: Georgia, serif;
+
+    font-size: 18px;
+
+    font-weight: normal;
+}
+
+.modal-header p {
+    margin: 4px 0 0;
+
+    color: #7f786f;
+
+    font-size: 10px;
+}
+
+.modal-close {
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+
+    color: #8d857b;
+
+    font-size: 21px;
+}
+
+.modal-close:hover {
+    color: #fff;
+    border-color: var(--gold);
+}
+
+
+.modal-body {
+    overflow-y: auto;
+
+    padding: 20px;
+}
+
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 14px 20px;
+
+    border-top: 1px solid var(--border);
+
+    background: #151412;
+}
+
+
+/* ============================================================
+   MODAL FORM
+============================================================ */
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #958d81;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+
+.primary-btn,
+.secondary-btn,
+.danger-btn {
+    height: 34px;
+
+    padding: 0 16px;
+
+    border: 1px solid var(--border);
+
+    font-size: 10px;
+
+    letter-spacing: .4px;
+}
+
+.primary-btn {
+    background: var(--gold);
+
+    border-color: var(--gold);
+
+    color: #17130d;
+}
+
+.primary-btn:hover {
+    background: var(--gold-light);
+}
+
+.secondary-btn {
+    background: transparent;
+
+    color: #aaa297;
+}
+
+.secondary-btn:hover {
+    border-color: #75694f;
+    color: #eee7dc;
+}
+
+.danger-btn {
+    background: transparent;
+
+    border-color: #64352f;
+
+    color: #c96a5d;
+}
+
+.danger-btn:hover {
+    background: #351c19;
+}
+
+
+/* ============================================================
+   RESERVATION MODAL
+============================================================ */
+
+.reservation-summary {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-bottom: 24px;
+
+    border: 1px solid var(--border);
+
+    background: #211f1c;
+}
+
+.reservation-summary > div {
+    padding: 12px;
+
+    border-right: 1px solid var(--border);
+}
+
+.reservation-summary > div:last-child {
+    border-right: 0;
+}
+
+.reservation-summary span,
+.staff-id-display span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #756e64;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+.reservation-summary strong {
+    color: #e6dfd4;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   GOWN MODAL
+============================================================ */
+
+.preview-box {
+    display: grid;
+
+    grid-template-columns: 150px 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+
+    padding: 12px;
+
+    border: 1px solid var(--border);
+
+    background: #211f1c;
+}
+
+.preview-image {
+    height: 190px;
+
+    overflow: hidden;
+}
+
+.preview-image .sample-gown-silhouette {
+    width: 75px;
+    height: 155px;
+
+    font-size: 40px;
+}
+
+.color-input {
+    display: grid;
+
+    grid-template-columns: 45px 1fr;
+
+    gap: 7px;
+}
+
+.color-input input[type="color"] {
+    width: 45px;
+    height: 30px;
+
+    padding: 3px;
+
+    cursor: pointer;
+}
+
+.size-checkboxes {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+.size-checkboxes label {
+    display: flex;
+    align-items: center;
+
+    width: auto;
+
+    margin: 0;
+
+    padding: 7px 10px;
+
+    border: 1px solid var(--border);
+
+    color: #8e877d;
+
+    cursor: pointer;
+}
+
+.size-checkboxes input {
+    width: auto;
+
+    margin-right: 6px;
+}
+
+
+/* ============================================================
+   STAFF
+============================================================ */
+
+.staff-name {
+    color: #eee8df !important;
+    font-weight: 500;
+}
+
+.staff-id-display {
+    margin-bottom: 20px;
+
+    padding: 12px;
+
+    border: 1px solid var(--border);
+
+    background: #211f1c;
+}
+
+.staff-id-display strong {
+    color: var(--gold-light);
+
+    font-size: 12px;
+}
+
+.staff-footer {
+    justify-content: space-between;
+}
+
+.modal-footer-right {
+    display: flex;
+    gap: 8px;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .main-nav {
+        margin-left: 20px;
+    }
+
+    .nav-tab {
+        padding: 0 9px;
+    }
+
+    .filter-sidebar {
+        width: 175px;
+    }
+
+    .gown-grid {
+        grid-template-columns:
+            repeat(auto-fill, minmax(220px, 1fr));
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .topbar {
+        padding: 0 10px;
+    }
+
+    .brand-label {
+        display: none;
+    }
+
+    .brand-name {
+        font-size: 14px;
+    }
+
+    .main-nav {
+        margin-left: 10px;
+    }
+
+    .nav-tab {
+        padding: 0 6px;
+        font-size: 10px;
+    }
+
+    .logout-btn {
+        padding: 7px 9px;
+    }
+
+    .filter-sidebar {
+        width: 160px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .reservation-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .reservation-summary > div {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .preview-box {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-image {
+        height: 220px;
+    }
+
+    .staff-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modal-footer-right {
+        justify-content: flex-end;
+    }
+
+}

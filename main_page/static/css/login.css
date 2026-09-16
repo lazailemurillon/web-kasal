@@ -1,0 +1,497 @@
+/* =========================================
+   LOGIN PAGE
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background: #0d0c0b;
+    color: #e9e2d5;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.login-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-start;
+}
+
+
+.login-container {
+
+    width: 448px;
+
+    margin-top: 38px;
+}
+
+
+/* =========================================
+   BACK
+========================================= */
+
+.back-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-bottom: 38px;
+
+    color: #81796e;
+
+    text-decoration: none;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+
+    transition: color 0.2s ease;
+}
+
+
+.back-link:hover {
+
+    color: #c9a957;
+
+}
+
+
+.back-link span {
+
+    font-size: 17px;
+
+    line-height: 10px;
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.login-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 38px;
+
+    color: #e8e1d4;
+
+    font-size: 16px;
+}
+
+
+.brand-symbol {
+
+    color: #c9a957;
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   CUSTOMER LOGIN
+========================================= */
+
+.login-label {
+
+    margin-bottom: 14px;
+
+    color: #c9a957;
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.login-container h1 {
+
+    margin-bottom: 35px;
+
+    color: #f0e9dd;
+
+    font-size: 31px;
+
+    font-weight: normal;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.login-form {
+
+    width: 100%;
+}
+
+
+.form-group {
+
+    margin-bottom: 18px;
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #9b9287;
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+.form-group label span {
+
+    color: #c9a957;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.input-wrapper {
+
+    position: relative;
+
+    width: 100%;
+}
+
+
+.input-wrapper input {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 45px;
+
+    border: 1px solid #39342b;
+
+    outline: none;
+
+    background: #211e1b;
+
+    color: #ddd5c8;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 13px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.input-wrapper input:focus {
+
+    border-color: #76633a;
+
+    background: #24211d;
+}
+
+
+.input-wrapper input::placeholder {
+
+    color: #5c574f;
+}
+
+
+/* =========================================
+   INPUT ICON
+========================================= */
+
+.input-icon {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #676057;
+
+    font-size: 13px;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   PASSWORD TOGGLE
+========================================= */
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 12px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    color: #766f65;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+
+.password-toggle:hover {
+
+    color: #c9a957;
+}
+
+
+/* =========================================
+   OPTIONS
+========================================= */
+
+.login-options {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 17px;
+
+    margin-bottom: 18px;
+}
+
+
+.remember-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #817a70;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+
+.remember-option input {
+
+    appearance: none;
+
+    width: 16px;
+
+    height: 16px;
+
+    margin: 0;
+
+    border: 1px solid #3d382f;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+
+.remember-option input:checked {
+
+    border-color: #c9a957;
+
+    background: #c9a957;
+}
+
+
+.remember-option input:checked::after {
+
+    content: "✓";
+
+    position: absolute;
+
+    left: 3px;
+
+    top: 0px;
+
+    color: #171512;
+
+    font-size: 11px;
+}
+
+
+.forgot-password {
+
+    color: #c9a957;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    text-decoration: underline;
+
+    text-underline-offset: 3px;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.login-error {
+
+    margin-bottom: 15px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #5a302b;
+
+    background: #251614;
+
+    color: #c9897e;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-button {
+
+    width: 100%;
+
+    height: 48px;
+
+    border: none;
+
+    background: #c9a957;
+
+    color: #171512;
+
+    cursor: pointer;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+
+    transition: background 0.2s ease;
+}
+
+
+.login-button:hover {
+
+    background: #d9bb6b;
+}
+
+
+/* =========================================
+   SIGN UP
+========================================= */
+
+.signup-prompt {
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #756e65;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+}
+
+
+.signup-prompt a {
+
+    margin-left: 3px;
+
+    color: #c9a957;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 16px;
+
+    text-decoration: underline;
+
+    text-underline-offset: 2px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .login-container {
+
+        width: calc(100% - 40px);
+
+        margin-top: 30px;
+    }
+
+    .login-container h1 {
+
+        font-size: 27px;
+    }
+
+}

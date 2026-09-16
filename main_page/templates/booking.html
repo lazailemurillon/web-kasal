@@ -1,0 +1,213 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ gown.name }} | Booking</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/booking.css' %}">
+
+</head>
+
+<body>
+
+    <main class="booking-page">
+
+        <!-- =========================
+             BACK
+        ========================== -->
+
+        <a href="{% url 'main_page' %}"
+           class="back-link">
+
+            ‹ Back to Collection
+
+        </a>
+
+
+        <div class="booking-layout">
+
+
+            <!-- =========================
+                 GOWN IMAGE
+            ========================== -->
+
+            <section class="booking-image">
+
+                <img
+                    src="{{ gown.image.url }}"
+                    alt="{{ gown.name }}">
+
+            </section>
+
+
+
+            <!-- =========================
+                 GOWN DETAILS
+            ========================== -->
+
+            <section class="booking-details">
+
+                <div class="gown-style">
+                    {{ gown.get_style_display }}
+                </div>
+
+
+                <h1>
+                    {{ gown.name }}
+                </h1>
+
+
+                <p class="designer">
+                    {{ gown.designer }}
+                </p>
+
+
+
+                <!-- =========================
+                     GOWN INFORMATION
+                ========================== -->
+
+                <div class="gown-tags">
+
+                    <span>
+                        {{ gown.get_color_display }}
+                    </span>
+
+                    <span>
+                        {{ gown.get_style_display }}
+                    </span>
+
+                    <span>
+                        SIZE: {{ gown.get_size_display }}
+                    </span>
+
+                    <span>
+                        ${{ gown.price }} / RENTAL
+                    </span>
+
+                </div>
+
+
+
+                <!-- =========================
+                     BOOKING FORM
+                ========================== -->
+
+                <form
+                    method="post"
+                    id="bookingForm">
+
+                    {% csrf_token %}
+
+
+                    <!-- =========================
+                         DATE
+                    ========================== -->
+
+                    <div class="date-section">
+
+                        <label>
+                            SELECT DATE *
+                        </label>
+
+
+                        <input
+                            type="date"
+                            name="date"
+                            id="bookingDate"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         TIME
+                    ========================== -->
+
+                    <div class="time-section">
+
+                        <label>
+                            SELECT TIME SLOT *
+                        </label>
+
+
+                        <div class="time-grid">
+
+                            {% for time in time_slots %}
+
+                                <button
+                                    type="button"
+                                    class="time-button"
+                                    data-time="{{ time }}">
+
+                                    {{ time }}
+
+                                </button>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <input
+                            type="hidden"
+                            name="time_slot"
+                            id="selectedTime"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         ACTIONS
+                    ========================== -->
+
+                    <div class="booking-actions">
+
+                        <a
+                            href="{% url 'main_page' %}"
+                            class="cancel-button">
+
+                            CANCEL
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="reserve-button"
+                            id="reserveButton"
+                            disabled>
+
+                            CHOOSE A DATE AND TIME FIRST
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script src="{% static 'js/booking.js' %}"></script>
+
+</body>
+
+</html>
