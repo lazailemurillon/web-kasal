@@ -15,7 +15,7 @@ def get_fashion_embedding(uploaded_file):
     uploaded_file.seek(0)
 
     response = requests.post(
-        f"{api_url}/embed",
+        f"{api_url.rstrip('/')}/embed",
         files={
             "file": (
                 uploaded_file.name,
